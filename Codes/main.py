@@ -660,7 +660,7 @@ def updateGameScreen(window, GAMESTATE):
 
 #  Game Settings and Variables
 SCREENWIDTH = 1260
-SCREENHEIGHT = 1080
+SCREENHEIGHT = 800
 ROWS = 10
 COLS = 10
 CELLSIZE = 50
@@ -716,10 +716,10 @@ CGAMEGRIDIMG = loadImage('assets/images/grids/comp_grid.png', ((ROWS + 1) * CELL
 BUTTONIMAGE = loadImage('assets/images/buttons/button.png', (150, 50))
 BUTTONIMAGE1 = loadImage('assets/images/buttons/button.png', (250, 100))
 BUTTONS = [
-    Button(BUTTONIMAGE, (150, 50), (25, 900), 'Randomize'),
-    Button(BUTTONIMAGE, (150, 50), (200, 900), 'Reset'),
-    Button(BUTTONIMAGE, (150, 50), (375, 900), 'Deploy'),
-    Button(BUTTONIMAGE1, (250, 100), (900, SCREENHEIGHT // 2 - 150), 'Easy Computer')
+    Button(BUTTONIMAGE, (150, 50), (700, 700), 'Randomize'),
+    Button(BUTTONIMAGE, (150, 50), (875, 700), 'Reset'),
+    Button(BUTTONIMAGE, (150, 50), (1050, 700), 'Deploy'),
+    Button(BUTTONIMAGE1, (250, 100), (900, SCREENHEIGHT // 2 - 150), 'Easy Computer'),
 ]
 REDTOKEN = loadImage('assets/images/tokens/redtoken.png', (CELLSIZE, CELLSIZE))
 GREENTOKEN = loadImage('assets/images/tokens/greentoken.png', (CELLSIZE, CELLSIZE))
