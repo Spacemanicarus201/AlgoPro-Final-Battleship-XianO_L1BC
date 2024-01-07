@@ -21,11 +21,11 @@ class Ship:
         self.hImageHeight = self.hImage.get_height()
         self.hImageRect = self.hImage.get_rect()
         self.hImageRect.topleft = pos
-        #  Image and Rectangle
+        #  Image 
         self.image = self.vImage
         self.rect = self.vImageRect
         self.rotation = False
-        #  Ship is current selection
+        # if Ship is as a current selection
         self.active = False
         #  Load gun Images
         self.gunslist = []
@@ -39,7 +39,6 @@ class Ship:
                           size[1] * gunsize[1]),
                          self.gunCoordsOffset[num])
                 )
-
 
     def selectShipAndMove(self):
         #Selects the ship and moves it according to the mouse position
@@ -56,7 +55,6 @@ class Ship:
                     if event.button == 3:
                         self.rotateShip()
 
-
     def rotateShip(self, doRotation=False):
         #rotting ship between vertical and horizontal
         if self.active or doRotation == True:
@@ -65,7 +63,6 @@ class Ship:
             else:
                 self.rotation = False
             self.switchImageAndRect()
-
 
     def switchImageAndRect(self):
         #Switches from Horizontal to Vertical and vice versa
@@ -77,7 +74,6 @@ class Ship:
             self.rect = self.vImageRect
         self.hImageRect.center = self.vImageRect.center = self.rect.center
 
-
     def checkForCollisions(self, shiplist):
         #Check to make sure the ship is not colliding with any of the other ships during deployment
         slist = shiplist.copy()
@@ -86,7 +82,6 @@ class Ship:
             if self.rect.colliderect(item.rect):
                 return True
         return False
-
 
     def checkForRotateCollisions(self, shiplist):
         #Check to make sure the ship is not going to collide with any other ship before rotating#
@@ -109,7 +104,6 @@ class Ship:
         self.rect.topleft = self.pos
         self.hImageRect.center = self.vImageRect.center = self.rect.center
 
-
     def snapToGridEdge(self, gridCoords):
         if self.rect.topleft != self.pos:
 
@@ -130,7 +124,6 @@ class Ship:
                 self.rect.bottom = gridCoords[-1][0][1] + 50
             self.vImageRect.center = self.hImageRect.center = self.rect.center
 
-
     def snapToGrid(self, gridCoords):
         for rowX in gridCoords:
             for cell in rowX:
@@ -142,7 +135,6 @@ class Ship:
                         self.rect.topleft = (cell[0], cell[1] + (CELLSIZE - self.image.get_height())//2)
 
         self.hImageRect.center = self.vImageRect.center = self.rect.center
-
 
     def draw(self, window):
         #Draw the ship to the screen
@@ -158,7 +150,6 @@ class Guns:
         self.offset = offset
         self.rect = self.image.get_rect(center=pos)
 
-
     def update(self, ship):
         #Updating the Guns Positions on the ship#
         self.rotateGuns(ship)
@@ -167,11 +158,9 @@ class Guns:
         else:
             self.rect.center = (ship.rect.centerx + (ship.image.get_width()//2 * -self.offset), ship.rect.centery)
 
-
     def _update_image(self, angle):
         self.image = pygame.transform.rotate(self.orig_image, -angle)
         self.rect = self.image.get_rect(center=self.rect.center)
-
 
     def rotateGuns(self, ship):
        #Rotates the guns in relation to direction of the mouse cursor
@@ -187,7 +176,6 @@ class Guns:
                 self._update_image(angle)
             if self.rect.centerx >= ship.hImageRect.centerx and (angle >= -90 and angle <= 90):
                 self._update_image(angle)
-
 
     def draw(self, window, ship):
         self.update(ship)
@@ -207,13 +195,11 @@ class Button:
         self.msg = self.addText(msg)
         self.msgRect = self.msg.get_rect(center=self.rect.center)
 
-
     def addText(self, msg):
-        #Add font to the button image#
+        #Add font to the button image
         font = pygame.font.SysFont('Stencil', 22)
         message = font.render(msg, 1, (255,255,255))
         return message
-
 
     def focusOnButton(self, window):
         #Brings attention to which button is being focussed 
@@ -239,12 +225,10 @@ class Button:
             elif self.name == 'Redeploy':
                 self.restartTheGame()
 
-
     def randomizeShipPositions(self, shiplist, gameGrid):
         #Calls the randomize ships function
         if DEPLOYMENT == True:
             randomizeShipPositions(shiplist, gameGrid)
-
 
     def resetShips(self, shiplist):
         #Resets the ships to their default positions
@@ -252,10 +236,8 @@ class Button:
             for ship in shiplist:
                 ship.returnToDefaultPosition()
 
-
     def deploymentPhase(self):
         pass
-
 
     def restartTheGame(self):
         TOKENS.clear()
@@ -263,7 +245,6 @@ class Button:
         self.randomizeShipPositions(cFleet, cGameGrid)
         updateGameLogic(cGameGrid, cFleet, cGameLogic)
         updateGameLogic(pGameGrid, pFleet, pGameLogic)
-
 
     def updateButtons(self, gameStatus):
         #update the buttons as per the game stage
@@ -282,7 +263,6 @@ class Button:
         self.msg = self.addText(self.name)
         self.msgRect = self.msg.get_rect(center=self.rect.center)
 
-
     def draw(self, window):
         self.updateButtons(DEPLOYMENT)
         self.focusOnButton(window)
@@ -291,7 +271,6 @@ class Button:
 class Player:
     def __init__(self):
         self.turn = True
-
 
     def makeAttack(self, grid, logicgrid):
         #When its the player's turn, the player must make an attacking selection within the computer grid
@@ -320,12 +299,10 @@ class EasyComputer:
         self.status = self.computerStatus('Thinking')
         self.name = 'Easy Computer'
 
-
     def computerStatus(self, msg):
         image = pygame.font.SysFont('Stencil', 22)
         message = image.render(msg, 1, (0, 0, 0))
         return message
-
 
     def makeAttack(self, gamelogic):
         COMPTURNTIMER = pygame.time.get_ticks()
@@ -352,7 +329,6 @@ class EasyComputer:
                 self.turn = False
         return self.turn
 
-
     def draw(self, window):
         if self.turn:
             window.blit(self.status, (cGameGrid[0][0][0] - CELLSIZE, cGameGrid[-1][-1][1] + CELLSIZE))
@@ -373,7 +349,6 @@ class Tokens:
         self.explosionIndex = 0
         self.explosion = False
 
-
     def animate_Explosion(self):
         #Animating the Explosion 
         self.explosionIndex += 1
@@ -381,7 +356,6 @@ class Tokens:
             return self.explosionList[self.explosionIndex]
         else:
             return self.animate_fire()
-
 
     def animate_fire(self):
         #Animate the Fire sequence
@@ -393,7 +367,6 @@ class Tokens:
         else:
             self.imageIndex = 0
             return self.imageList[self.imageIndex]
-
 
     def draw(self, window):
         #Draws the signs to the screen
@@ -705,7 +678,6 @@ cFleet = createFleet()
 randomizeShipPositions(cFleet, cGameGrid)
 
 printGameLogic()
-
 
 #  Loading Game Sounds and Images
 MAINMENUIMAGE = loadImage('assets/images/background/Battleship.jpg', (SCREENWIDTH // 3 * 2, SCREENHEIGHT))
